@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Primary;
 @Configuration
 public class PersistenceConfiguration {
 
-    @Value("jdbc:postgresql://localhost:5432/animeycl")
+    @Value("jdbc:postgresql://localhost:5432/animeexpo")
     private String connection;
 
     @Bean

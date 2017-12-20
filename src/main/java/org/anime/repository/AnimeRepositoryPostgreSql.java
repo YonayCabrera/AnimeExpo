@@ -15,12 +15,12 @@ public class AnimeRepositoryPostgreSql implements AnimeRepository{
 
 
     private Sql2o sql2o(String connectionUrl) {
-        return new Sql2o(connectionUrl, "postgres", "1234");
+        return new Sql2o(connectionUrl, "root", "root");
     }
 
     @Override
     public void save(Anime anime) {
-        final String query = "INSERT INTO movie(posterImage, title, description, year, rating, video) " +
+        final String query = "INSERT INTO anime(posterImage, title, description, year, rating, video) " +
                 "VALUES (:posterImage, :title, :description, :year, :rating, :video)";
         try (Connection connection = sql2o.open()) {
             connection.createQuery(query)
@@ -36,7 +36,7 @@ public class AnimeRepositoryPostgreSql implements AnimeRepository{
 
     @Override
     public List<Anime> getAll() {
-        final String query = "SELECT * FROM movie";
+        final String query = "SELECT * FROM anime";
         try (Connection connection = sql2o.open()) {
             return connection.createQuery(query).executeAndFetch(Anime.class);
         }

@@ -2,6 +2,7 @@ package org.anime.domain;
 
 public class Anime {
 
+    private int id;
     private String posterImage;
     private String title;
     private String description;
@@ -9,13 +10,19 @@ public class Anime {
     private String rating;
     private String video;
 
-    public Anime(String posterImage, String title, String description, String year, String rating, String video) {
+    public Anime(int id, String posterImage, String title, String description, String year, String rating, String video) {
+
+        this.id = id;
         this.posterImage = posterImage;
         this.title = title;
         this.description = description;
         this.year = year;
         this.rating = rating;
         this.video = video;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getTitle() {

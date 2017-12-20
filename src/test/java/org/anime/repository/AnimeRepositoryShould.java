@@ -19,7 +19,7 @@ public class AnimeRepositoryShould {
     @Before
     public void setUp() {
         animeRepository = new AnimeRepositoryPostgreSql("jdbc:postgresql://localhost:5432/testdb");
-        anime = new Anime("fuu","fuuka","","2017","10","");
+        anime = new Anime(2, "fuu","fuuka","","2017","10","");
     }
 
     @Test

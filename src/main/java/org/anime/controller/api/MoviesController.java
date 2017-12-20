@@ -21,7 +21,6 @@ public class MoviesController {
 
     @GetMapping("/api/allMovies")
     public List<Anime> getMovies(){
-        List<Anime> execute = getAllAnime.execute();
-        return execute;
+        return getAllAnime.execute();
     }
 }

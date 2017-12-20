@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import {Button} from 'react-bootstrap';
-import './movies.css';
+import './animes.css';
 import RestClient from '../../RestClient';
-import {MovieItem} from '../../components/movieItem/movieItem';
+import {AnimeItem} from '../../components/animeItem/animeItem';
 
 
-class Movies extends Component {
+export default class Animes extends Component {
 
     constructor(props) {
         super(props);
@@ -24,7 +24,6 @@ class Movies extends Component {
             .then(results =>
                 this.setState({results})
             );
-
     }
 
     // open = () => this.setState({ showModal: true });
@@ -32,15 +31,16 @@ class Movies extends Component {
 
 
     showMovie() {
-        return this.state.results.map((movie, key) =>
-                // <Link  key={i} to={{ pathname: `/movies/${movie.id}`, state: { movie } }}>
-                <MovieItem key={key}
-                           title={movie.title}
-                    // poster_image={movie.poster_image}
+        return this.state.results.map((anime, key) =>
+            (<Link key={key} to={{pathname: '/anime-detail/' , state: { anime }}}>
+
+                <AnimeItem key={key}
+                           title={anime.title}
+                           posterImage={anime.posterImage}
                     // rating={movie.rating}
                 />
 
-            // </Link>
+            </Link>)
         );
     }
 
@@ -57,4 +57,3 @@ class Movies extends Component {
 
 }
 
-export default Movies;

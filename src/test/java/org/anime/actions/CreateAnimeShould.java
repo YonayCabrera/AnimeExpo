@@ -21,6 +21,7 @@ public class CreateAnimeShould {
     @Test
     public void save_the_series() {
         Anime anime = new Anime(
+                2,
                 "fuu",
                 "fuuka",
                 "",
