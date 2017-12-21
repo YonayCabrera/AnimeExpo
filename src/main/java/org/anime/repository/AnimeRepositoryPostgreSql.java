@@ -15,7 +15,7 @@ public class AnimeRepositoryPostgreSql implements AnimeRepository{
 
 
     private Sql2o sql2o(String connectionUrl) {
-        return new Sql2o(connectionUrl, "root", "root");
+        return new Sql2o(connectionUrl, "animeexpo", "yonaycl");
     }
 
     @Override

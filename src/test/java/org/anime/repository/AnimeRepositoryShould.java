@@ -9,24 +9,38 @@ import org.sql2o.Sql2o;
 import java.util.List;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.codehaus.groovy.runtime.InvokerHelper.asList;
 
-public class AnimeRepositoryShould {
+public class AnimeRepositoryShould extends BaseRepositoryShould{
 
+    @Override
+    protected List<String> deleteFromTables() {
+        return asList("anime");
+    }
+
+    private Sql2o connection;
     private AnimeRepositoryPostgreSql animeRepository;
     private Anime anime;
 
 
     @Before
+    public void given_a_repository_and_a_database() {
+        connection = new Sql2o(connectionTestDatabase, dbUser, dbPassword);
+        animeRepository = new AnimeRepositoryPostgreSql(connectionTestDatabase);
+        anime = new Anime(2, "fuu","fuuka","","2017","10","");
+
+    }
+
+    /*private AnimeRepositoryPostgreSql animeRepository;
+
+
+    @Before
     public void setUp() {
         animeRepository = new AnimeRepositoryPostgreSql("jdbc:postgresql://localhost:5432/testdb");
-        anime = new Anime(2, "fuu","fuuka","","2017","10","");
-    }
+    }*/
 
     @Test
     public void save_an_anime() {
-        createMovieTable();
-        truncateMovieTable();
-
         animeRepository.save(anime);
         Anime newAnime = getAnime();
 
@@ -35,8 +49,6 @@ public class AnimeRepositoryShould {
 
     @Test
     public void get_all_animes(){
-        createMovieTable();
-        truncateMovieTable();
         insertMovie(anime);
 
         List<Anime>animes = animeRepository.getAll();
@@ -44,22 +56,22 @@ public class AnimeRepositoryShould {
         assertThat(anime.getTitle()).isEqualTo(animes.get(0).getTitle());
     }
 
-    private void truncateMovieTable() {
+    /*private void truncateMovieTable() {
         try (Connection connection = getConnection()) {
-            connection.createQuery("TRUNCATE TABLE movie").executeUpdate();
+            connection.createQuery("TRUNCATE TABLE anime").executeUpdate();
         }
-    }
+    }*/
 
     private Anime getAnime() {
-        try (Connection connection = getConnection()) {
-            return connection.createQuery("SELECT posterImage, title, description, year, rating, video FROM movie")
+        try (Connection connection = this.connection.open()) {
+            return connection.createQuery("SELECT posterImage, title, description, year, rating, video FROM anime")
                     .executeAndFetch(Anime.class).get(0);
         }
     }
 
     private void insertMovie(Anime anime) {
-        try (Connection connection = getConnection()) {
-            connection.createQuery("INSERT INTO movie(posterImage, title, description,year,rating,video)" +
+        try (Connection connection = this.connection.open()) {
+            connection.createQuery("INSERT INTO anime(posterImage, title, description,year,rating,video)" +
                     " VALUES (:posterImage, :title, :description, :year, :rating, :video)")
                     .addParameter("posterImage", anime.getPosterImage())
                     .addParameter("title", anime.getTitle())
@@ -70,9 +82,9 @@ public class AnimeRepositoryShould {
         }
     }
 
-    private void createMovieTable(){
+    /*private void createMovieTable(){
         try(Connection connection = getConnection()){
-            connection.createQuery("CREATE TABLE IF NOT EXISTS movie\n" +
+            connection.createQuery("CREATE TABLE IF NOT EXISTS anime\n" +
                     "(\n" +
                     "  posterImage TEXT,\n" +
                     "  title TEXT NOT NULL,\n" +
@@ -82,9 +94,9 @@ public class AnimeRepositoryShould {
                     "  video TEXT NOT NULL\n" +
                     ")").executeUpdate();
         }
-    }
+    }*/
 
-    private Connection getConnection() {
-        return new Sql2o("jdbc:postgresql://localhost:5432/testdb", "postgres", "1234").open();
-    }
+    /*private Connection getConnection() {
+        return new Sql2o("jdbc:postgresql://localhost:5432/testdb", "root", "root").open();
+    }*/
 }
