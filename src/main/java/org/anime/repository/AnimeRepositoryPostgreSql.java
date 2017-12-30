@@ -3,7 +3,6 @@ package org.anime.repository;
 import org.anime.domain.Anime;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
-
 import java.util.List;
 
 public class AnimeRepositoryPostgreSql implements AnimeRepository{
@@ -12,7 +11,6 @@ public class AnimeRepositoryPostgreSql implements AnimeRepository{
     public AnimeRepositoryPostgreSql(String connection) {
         this.sql2o = sql2o(connection);
     }
-
 
     private Sql2o sql2o(String connectionUrl) {
         return new Sql2o(connectionUrl, "animeexpo", "yonaycl");
